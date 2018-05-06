@@ -17,9 +17,16 @@ import java.util.List;
 public class LoggingAspect {
 
     /**
+     * 定义方法：用于声明切入点表达式，一般该方法不需要其他代码
+     * 使用@Pointcut注解声明表达式
+     * */
+    @Pointcut("execution(public int com.hhp.spring.demo1.Calculator.*(int,int))")
+    public void declareJoinPointExpression() {}
+
+    /**
      * 前置通知
      * */
-    @Before("execution(public int com.hhp.spring.demo1.Calculator.*(int,int))")
+    @Before("declareJoinPointExpression()")
     public void beforeMethod(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
         List<Object> args = Arrays.asList(joinPoint.getArgs());
@@ -29,7 +36,7 @@ public class LoggingAspect {
     /**
      * 后置通知
      * */
-    @After("execution(public int com.hhp.spring.demo1.Calculator.*(int,int))")
+    @After("declareJoinPointExpression()")
     public void afterMethod(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();
         List<Object> args = Arrays.asList(joinPoint.getArgs());
@@ -39,7 +46,7 @@ public class LoggingAspect {
     /**
      * 返回通知
      * */
-    @AfterReturning(value="execution(public int com.hhp.spring.demo1.Calculator.*(int,int))",
+    @AfterReturning(value="declareJoinPointExpression()",
     returning = "result")
     public void afterReturning(JoinPoint joinPoint, Object result) {
         String methodName = joinPoint.getSignature().getName();
@@ -49,7 +56,7 @@ public class LoggingAspect {
     /**
      * 异常通知
      * */
-    @AfterThrowing(value = "execution(public int com.hhp.spring.demo1.Calculator.*(int,int))",
+    @AfterThrowing(value = "declareJoinPointExpression()",
     throwing = "ex")
     public void afterThrowing(JoinPoint joinPoint, Exception ex) {
         String methodName = joinPoint.getSignature().getName();
@@ -59,7 +66,7 @@ public class LoggingAspect {
     /**
      * 环绕通知
      * */
-    @Around("execution(public int com.hhp.spring.demo1.Calculator.*(int,int))")
+    @Around("declareJoinPointExpression()")
     public Object aroundMethod(ProceedingJoinPoint pdj) {
 
         Object result = null;
